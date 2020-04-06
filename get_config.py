@@ -11,4 +11,4 @@ class config_getter:
     def open_file(self):
         with open(self.config_name, 'r') as file:
             config = vdf.load(file)
-            pass
+        return config
