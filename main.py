@@ -11,8 +11,11 @@ def main():
     print("Creating backup at " + str(pathlib.Path().absolute()) +
           "/backup/localconfig.vdf")
     p.save_file(data, str(pathlib.Path().absolute())+"/backup/localconfig.vdf")
-    modifer = modify_config.modifier([modify_config.enable_optimus()])
+    modifer = modify_config.modifier(
+        [modify_config.enable_optimus()])
     modifer.modify(data)
+    print("Saving modified file")
+    p.save_file(data)
     pass
 
 
