@@ -11,9 +11,14 @@ class config_getter:
         vdf.dump(data, open(path, "w"), pretty=True)
 
     def get_file_name(self):
+        # username =
         return "/home/calum/.steam/debian-installation/userdata/89980527/config/localconfig.vdf"
 
     def open_file(self):
         with open(self.config_name, 'r') as file:
             config = vdf.load(file)
         return config
+
+    def auto_detect(self):
+        print("Auto detection failed using manual backup. \n")
+        return None
