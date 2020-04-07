@@ -1,12 +1,19 @@
+import pathlib
+
 import get_config
 import modify_config
 
 
 def main():
     p = get_config.config_getter()
-    game = p.open_file()
+    data = p.open_file()
+    # creates backup first
+    print("Creating backup at " + str(pathlib.Path().absolute()) +
+          "/backup/localconfig.vdf")
+    p.save_file(data, str(pathlib.Path().absolute())+"/backup/localconfig.vdf")
     modifer = modify_config.modifier([modify_config.enable_optimus()])
-    modifer.modify(game)
+    modifer.modify(data)
+    pass
 
 
 main()
