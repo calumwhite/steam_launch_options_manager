@@ -1,11 +1,11 @@
 #!/bin/bash
 if [ "$1" == '--initialise' ]
 then
-    python3 initialise.py
+    python3 /usr/share/pyshared/steam_launch_options_manager/initialise.py
     steam
 elif [ -z "$1" ]
 then
-    python3 main.py
+    python3 /usr/share/pyshared/steam_launch_options_manager/main.py
     steam
 else
     printf 'Useage: \nsteam_lauch_options_manager [options] \n \noptions:\n--initialise    rerun initialisation\n'
