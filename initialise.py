@@ -3,17 +3,17 @@ import json
 import time
 
 import steam_config_utils
+import main
 
 
 class config_manager:
-    def __init__(self):
-        self.steam_config_getter = steam_config_utils.config_getter()
 
     def gather_options(self):
         options = {}
 
         print("\n Initializing configuration and backup location for Steam Launch Options Manager \n")
 
+        self.steam_config_getter = steam_config_utils.config_getter()
         path = self.steam_config_getter.get_file_name()
         options["path"] = path
 
@@ -65,18 +65,24 @@ class initialise():
     def get_backup_path(self):
         root = os.getenv("XDG_DATA_HOME")
         if root == None:
-            root = os.getenv("HOME") + \
-                "/.local/share/steam_launch_options_manager"
-        return root
+            root = os.getenv("HOME") + "/.local/share"
+
+        path = root + "/steam_launch_options_manager"
+        return path
 
     def initialise(self):
         config_controller = config_manager()
         options = config_controller.gather_options()
         config_controller.save_options(options)
 
-        data = config_controller.steam_config_getter.open_file()
+        data = config_controller.steam_config_getter.open_file(
+            config_controller.steam_config_getter.config_name)
         config_controller.steam_config_getter.backup_config(
             data, self.get_backup_path(), "localconfig.vdf.backup"+str(int(time.time())))
 
+        print("starting main program")
+        main.main()
 
-initialise().initialise()
+
+if __name__ == "__main__":
+    initialise().initialise()

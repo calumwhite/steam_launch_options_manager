@@ -42,8 +42,8 @@ class config_getter:
     def autodetect(self):
         return "/home/calum/.steam/debian-installation/userdata/89980527/config/localconfig.vdf"
 
-    def open_file(self):
-        with open(self.config_name, 'r') as file:
+    def open_file(self, file_name):
+        with open(file_name, 'r') as file:
             config = vdf.load(file)
         return config
 
