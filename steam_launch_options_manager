@@ -1,0 +1,12 @@
+#!/bin/bash
+if [ $1 == '--initialise' ]
+then
+    python3 initialise.py
+elif [ -z $1 ]
+then
+    python3 main.py
+else
+    printf 'Useage: \nsteam_lauch_options_manager [options] \n \noptions:\n--initialise    rerun initialisation\n'
+fi
+
+steam
