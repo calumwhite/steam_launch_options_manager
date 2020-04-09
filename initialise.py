@@ -1,84 +1,82 @@
 import os
 import json
+import time
 
 import get_config
 
 
-def gather_options():
-    options = {}
+class config_manager:
+    def __init__(self):
+        self.steam_config_getter = get_config.config_getter()
 
-    print("\n Initializing configuration and backup location for Steam Launch Options Manager \n")
+    def gather_options(self):
+        options = {}
 
-    while True:
-        value = input(
-            "Do you want to try and auto-detect location of localconfig.vdf? y/n \n")
-        if value == "n":
-            auto_detect = False
-            break
-        elif value == "y":
-            auto_detect = True
-            break
+        print("\n Initializing configuration and backup location for Steam Launch Options Manager \n")
 
-    if auto_detect:
-        path = get_config.config_getter().auto_detect()
+        path = self.steam_config_getter.get_file_name()
+        options["path"] = path
 
-        if path == None:
-            auto_detect = False
-
-    if not auto_detect:
         while True:
-            path = input(
-                "Please input path to localconfig.vdf \n the path should look something like $HOME/.steam/[distro specific path]/userdata/[id number]/config/localconfig.vdf \n")
-
-            try:
-                with open(path) as f:
-                    # print(f.readlines())
-                    break
-            except IOError:
-                print("File doesn't exist \n")
-    options["path"] = path
-
-    while True:
-        value = input(
-            "What is the first rule you want to add. 1. Enable Nvidia Optimus , 2. Add generic strings \n")
-        if value == "1":
-            options["rules"] = ["optimus"]
-            break
-        elif value == "2":
-            strings = input(
-                "Please insert the strings you want to add space seperated \n").split()
-            options["rules"] = [strings]
-            break
-
-    while True:
-        another_rule = input("No you want to add another rule y/n \n")
-        if another_rule == "n":
-            break
-        elif another_rule == "y":
             value = input(
                 "What is the first rule you want to add. 1. Enable Nvidia Optimus , 2. Add generic strings \n")
-            if value == 1:
-                options["rules"].append("optimus")
+            if value == "1":
+                options["rules"] = {"optimus": None}
                 break
-            elif value == 2:
+            elif value == "2":
                 strings = input(
                     "Please insert the strings you want to add space seperated \n").split()
-                options["rules"].append(strings)
+                options["rules"] = {"generic_string": strings}
                 break
 
-    return options
+        while True:
+            another_rule = input("No you want to add another rule y/n \n")
+            if another_rule == "n":
+                break
+            elif another_rule == "y":
+                value = input(
+                    "What is the first rule you want to add. 1. Enable Nvidia Optimus , 2. Add generic strings \n")
+                if value == "1":
+                    options["rules"]["optimus"] = None
+                elif value == "2":
+                    strings = input(
+                        "Please insert the strings you want to add space seperated. This will overwrite any generic strings entered before \n").split()
+                    options["rules"]["generic_string"] = strings
+
+        return options
+
+    def save_options(self, options):
+        config_path = self.get_config_path()
+
+        print("Saving config options to " + config_path + "\n")
+        json.dump(options, open(config_path, "w"))
+
+    def get_config_path(self):
+        root = os.getenv("XDG_CONFIG_HOME")
+        if root == None:
+            root = os.getenv("HOME") + "/.config"
+
+        config_path = root + "/steam_launch_options_manager.config"
+        return config_path
 
 
-def save_options(options):
-    config_path = os.environ("XDG_CONFIG_HOME")
-    if config_path == None:
-        config_path = "$HOME/.config"
-    json.dump(options, open(config_path, "w"))
+class initialise():
+
+    def get_backup_path(self):
+        root = os.getenv("XDG_DATA_HOME")
+        if root == None:
+            root = os.getenv("HOME") + \
+                "/.local/share/steam_launch_options_manager"
+        return root
+
+    def initialise(self):
+        config_controller = config_manager()
+        options = config_controller.gather_options()
+        config_controller.save_options(options)
+
+        data = config_controller.steam_config_getter.open_file()
+        config_controller.steam_config_getter.backup_config(
+            data, self.get_backup_path(), "localconfig.vdf.backup"+str(int(time.time())))
 
 
-def initialise():
-    options = gather_options()
-    save_options(options)
-
-
-initialise()
+initialise().initialise()
