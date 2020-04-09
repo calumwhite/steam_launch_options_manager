@@ -2,12 +2,12 @@ import os
 import json
 import time
 
-import get_config
+import steam_config_utils
 
 
 class config_manager:
     def __init__(self):
-        self.steam_config_getter = get_config.config_getter()
+        self.steam_config_getter = steam_config_utils.config_getter()
 
     def gather_options(self):
         options = {}

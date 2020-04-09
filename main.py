@@ -1,11 +1,11 @@
 import pathlib
 
-import get_config
+import steam_config_utils
 import modify_config
 
 
 def main():
-    p = get_config.config_getter()
+    p = steam_config_utils.config_getter()
     data = p.open_file()
     # creates backup first
     print("Creating backup at " + str(pathlib.Path().absolute()) +
