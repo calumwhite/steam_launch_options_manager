@@ -80,8 +80,9 @@ class initialise():
         config_controller.steam_config_getter.backup_config(
             data, self.get_backup_path(), "localconfig.vdf.backup"+str(int(time.time())))
 
-        print("starting main program")
-        main.main()
+        if __name__ == "__main__":
+            print("starting main program")
+            main.main()
 
 
 if __name__ == "__main__":

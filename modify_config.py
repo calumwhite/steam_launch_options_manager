@@ -1,10 +1,18 @@
 class modifier:
     def __init__(self, rules):
-        self.rules = rules
+        self.processed_rules = []
+        for rule, params in rules.items():
+            self.process_rule(rule, params)
 
     def modify(self, game):
-        for rule in self.rules:
+        for rule in self.processed_rules:
             rule.run(game)
+
+    def process_rule(self, rule, params):
+        if rule == "optimus":
+            self.processed_rules.append(enable_optimus())
+        elif rule == "generic_string":
+            self.processed_rules.append(add_to_LaunchOptions(params))
 
 
 class add_to_LaunchOptions:
