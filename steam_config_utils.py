@@ -40,7 +40,17 @@ class config_getter:
         return path
 
     def autodetect(self):
-        return "/home/calum/.steam/debian-installation/userdata/89980527/config/localconfig.vdf"
+        toplevel = os.getenv("HOME") + "/.steam/"
+        installs = os.listdir(toplevel)
+        for install in installs:
+            if "installation" in install:
+                user_names = os.listdir(toplevel + install + "/userdata")
+                user_name = user_names[0]
+                path = toplevel + install + "/userdata/" + user_name + "/config/localconfig.vdf"
+                return path
+
+        return None
+        # "/home/calum/.steam/debian-installation/userdata/89980527/config/localconfig.vdf"
 
     def open_file(self, file_name):
         with open(file_name, 'r') as file:
