@@ -1,0 +1,7 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=steam_launch_options_manager
+Comment=Manages steam launch options
+Exec=/usr/local/bin/steam_launch_options_manager/steam_launch_options_manager
