@@ -17,8 +17,7 @@ def main():
     p.backup_config(data, initialise.initialise().get_backup_path(),
                     "localconfig.vdf.backup"+str(int(time.time())))
     # modify steam backup
-    modifer = modify_config.modifier(
-        [modify_config.enable_optimus()])
+    modifer = modify_config.modifier(config.rules)
     modifer.modify(data)
     print("Saving modified file")
     p.save_file(data, config.steam_path)
