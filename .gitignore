@@ -130,3 +130,6 @@ dmypy.json
 
 # backup of config
 /backup
+
+# vscode artifacts
+.vscode/
