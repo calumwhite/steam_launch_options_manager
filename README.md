@@ -5,12 +5,14 @@ Allows changing the steam launcher options with one command and on going mainten
 My reason for creating this was that I am running a Nvidia optimus equipped laptop with POP os (Ubuntu based and great). To get steam games running on the discrete graphics card I had to change the launcher options for each game inside steam. Effort and needs ongoing maintenance.
 
 ## !!!ISSUES!!!
+Linux Only
+
 This is new and poorly tested. That said it does create a backup of the config at $XDG_DATA_HOME/steam_launch_options_manager defaulting to $HOME/.config/steam_launch_options_manager. If .localconfig.vdf was corrupted or deleted it should be not a big issue only things like big picture control binds and launch options would be lost. PLS don't sue me either way.
 
 This is not tested on any non debian based distros and might fail to autodetect path. Manually entering the path should still work.
 
 ## Installation
-Currently a pip venv isn't set up (hopefully there will be one tomorrow). 
+Assuming as system with python3 already installed.
 Thus install pip (eg on debian based)
 
 ```
@@ -87,9 +89,9 @@ Make sure steam has not got any processes open restarting is an easy way to achi
 ## TODO
 Multiple accounts only the first account is modified at current
 
-Pip Venv
-
 Windows support
+
+Test on non Debian based systems. (Please let me know if this works or if you have any issues)
 
 Non-steam games in steam launcher
 
